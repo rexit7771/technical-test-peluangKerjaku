@@ -3,6 +3,8 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
+    let errorElement = document.getElementById("errorMessage");
+
     let errorMessage = "";
     if (username === "") {
         errorMessage += "Username is required "
@@ -13,7 +15,6 @@ form.addEventListener('submit', async (e) => {
     }
 
     if (errorMessage !== "") {
-        let errorElement = document.getElementById("errorMessage");
         errorElement.textContent = errorMessage;
         return
     }
@@ -29,7 +30,9 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify({ username, password })
         });
 
+        if (!response.ok) throw
     } catch (error) {
-
+        errorElement.textContent = "Something's wrong";
+        return
     }
 })
